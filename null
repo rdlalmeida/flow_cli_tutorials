@@ -1,0 +1,18 @@
+emulator_database> 
+emulator_database> 
+emulator_database> 
+emulator_database> 
+emulator_database> 
+emulator_database> 
+emulator_database> 
+emulator_database> 
+emulator_database> 
+emulator_database> 
+emulator_database> 
+emulator_database> emulator_database
+emulator_database> 
+emulator_database> 
+emulator_database> 
+emulator_database> ... ... ... ... ... ..... ..... ....... ....... ..... ..... ... ... ... ... Login successful with user 'emulator' into database 'emulator_database'
+
+emulator_database> Running FLOW emulator with 'flow emulator start --port=3569 --rest-port=8888 --admin-port=8080 --verbose=true --log-format=text --block-time=0ms --contracts=false --service-priv-key=680fa28962650ef346a7edf23d63967b0fcf44958488d0d48f8539ece6e92eba --service-pub-key=5a6a7bdb81838e40fc615d4c0eed3d4caacfc7f47a89d319caa370aac6196113573738ba57e09ea5a27a192d48457ee5c0e32011bc10ef93383aabad24a9ce2a --service-sig-algo=ECDSA_P256 --service-hash-algo=SHA3_256 --init=false --rest-debug=false --grpc-debug=false --persist=true --dbpath=./flowdb --simple-addresses=false --token-supply=1000000000.0 --transaction-expiry=10 --storage-limit=true --transaction-fees=false --transaction-max-gas-limit=9999 --script-gas-limit=100000'...\n
