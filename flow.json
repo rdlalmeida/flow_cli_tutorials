@@ -8,7 +8,8 @@
 	"contracts": {
 		"HelloWorld": "./flow/cadence/01/contracts/HelloWorld.cdc",
 		"HelloWorldResource": "./flow/cadence/02/contracts/HelloWorldResource.cdc",
-		"HelloWorldResource2": "./flow/cadence/03/contracts/HelloWorldResource2.cdc"
+		"HelloWorldResource2": "./flow/cadence/03/contracts/HelloWorldResource2.cdc",
+		"BasicNFT": "./flow/cadence/04/contracts/BasicNFT.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -19,6 +20,14 @@
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
 			"key": "680fa28962650ef346a7edf23d63967b0fcf44958488d0d48f8539ece6e92eba"
+		},
+		"account01": {
+			"address": "0x01cf0e2f2f715450",
+			"key": "b7dabca64339c7986477e405470f5f737ff6ee119d3c96a5768ec86344cbe3ba"
+		},
+		"account02": {
+			"address": "0x179b6b1cb6755e31",
+			"key": "69f067810cb6858662126df375e9f9a249e8441abeaeadde837335f82659b5d4"
 		},
 		"testnet-account": {
 			"address": "0xb7fb1e0ae6485cf6",
@@ -33,7 +42,12 @@
 	},
 	"deployments": {
 		"emulator": {
-			"emulator-account": ["HelloWorld","HelloWorldResource", "HelloWorldResource2"]
+			"emulator-account": [
+				"HelloWorld",
+				"HelloWorldResource",
+				"HelloWorldResource2",
+				"BasicNFT"
+			]
 		},
 		"testnet": {
 			"testnet-account": [

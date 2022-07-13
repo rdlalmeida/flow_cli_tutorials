@@ -6,7 +6,7 @@ pub contract HelloWorldResource2 {
     pub resource HelloAsset {
         // A transaction can call this function to get the "Hello, World!" message from the resource
         pub fun hello(): String {
-            return "Hello, World!"
+            return "Hello, stange, largelly unfair World!"
         }
     }
 
