@@ -9,7 +9,8 @@
 		"HelloWorld": "./flow/cadence/01/contracts/HelloWorld.cdc",
 		"HelloWorldResource": "./flow/cadence/02/contracts/HelloWorldResource.cdc",
 		"HelloWorldResource2": "./flow/cadence/03/contracts/HelloWorldResource2.cdc",
-		"BasicNFT": "./flow/cadence/04/contracts/BasicNFT.cdc"
+		"BasicNFT": "./flow/cadence/04/contracts/BasicNFT.cdc",
+		"ExampleNFT": "./flow/cadence/05/contracts/ExampleNFT.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -23,11 +24,13 @@
 		},
 		"account01": {
 			"address": "0x01cf0e2f2f715450",
-			"key": "b7dabca64339c7986477e405470f5f737ff6ee119d3c96a5768ec86344cbe3ba"
+			"key": "b7dabca64339c7986477e405470f5f737ff6ee119d3c96a5768ec86344cbe3ba",
+			"__publickey__": "baab4ca8569a5264ec93786d90ad0aa6ec858ef9501aea6a1d9ca7dbf1512e15c553c11c253030427629bf21f6218f452ded73fc880977e7b69e0610582cd85d"
 		},
 		"account02": {
 			"address": "0x179b6b1cb6755e31",
-			"key": "69f067810cb6858662126df375e9f9a249e8441abeaeadde837335f82659b5d4"
+			"key": "69f067810cb6858662126df375e9f9a249e8441abeaeadde837335f82659b5d4",
+			"__publickey__": "6fbd9bad2b2b75c4bc2ee2bc09b211308770964ed2e07dc2cf690253315d948d9d9281e3a3c150c543b9f21138782810fc7c9d4755c8bc7416c03588be50935d"
 		},
 		"testnet-account": {
 			"address": "0xb7fb1e0ae6485cf6",
@@ -46,7 +49,8 @@
 				"HelloWorld",
 				"HelloWorldResource",
 				"HelloWorldResource2",
-				"BasicNFT"
+				"BasicNFT",
+				"ExampleNFT"
 			]
 		},
 		"testnet": {
