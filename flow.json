@@ -10,7 +10,12 @@
 		"HelloWorldResource": "./flow/cadence/02/contracts/HelloWorldResource.cdc",
 		"HelloWorldResource2": "./flow/cadence/03/contracts/HelloWorldResource2.cdc",
 		"BasicNFT": "./flow/cadence/04/contracts/BasicNFT.cdc",
-		"ExampleNFT": "./flow/cadence/05/contracts/ExampleNFT.cdc"
+		"ExampleNFT": "./flow/cadence/05/contracts/ExampleNFT.cdc",
+		"BasicToken": "./flow/cadence/06/contracts/BasicToken.cdc",
+		"FungibleToken": "./flow/cadence/06/contracts/FungibleToken.cdc",
+		"ExampleToken": "./flow/cadence/06/contracts/ExampleToken.cdc",
+		"ResourceInterface": "./flow/cadence/06/contracts/ResourceInterface.cdc",
+		"InterfacedContract": "./flow/cadence/06/contracts/InterfacedContract.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -23,14 +28,19 @@
 			"key": "680fa28962650ef346a7edf23d63967b0fcf44958488d0d48f8539ece6e92eba"
 		},
 		"account01": {
-			"address": "0x01cf0e2f2f715450",
-			"key": "b7dabca64339c7986477e405470f5f737ff6ee119d3c96a5768ec86344cbe3ba",
-			"__publickey__": "baab4ca8569a5264ec93786d90ad0aa6ec858ef9501aea6a1d9ca7dbf1512e15c553c11c253030427629bf21f6218f452ded73fc880977e7b69e0610582cd85d"
+			"address": "0xf3fcd2c1a78f5eee",
+			"key": "2df342adc4f8fc5a2c91c6759c766096b2afe3660a861d4b83f815b7d3e06b27",
+			"__publickey__": "0d766679eb92f783566331af50cccf8e6c39f4a35c89d8dd957185adf02338975e38a44a9caaeccd2b5cdb686a64513d86d38bcb97ddab180a3404f8aa5dde09"
 		},
 		"account02": {
 			"address": "0x179b6b1cb6755e31",
 			"key": "69f067810cb6858662126df375e9f9a249e8441abeaeadde837335f82659b5d4",
 			"__publickey__": "6fbd9bad2b2b75c4bc2ee2bc09b211308770964ed2e07dc2cf690253315d948d9d9281e3a3c150c543b9f21138782810fc7c9d4755c8bc7416c03588be50935d"
+		},
+		"account03": {
+			"address": "0xe03daebed8ca0615",
+			"key": "61d9ac65e0a1fc9295b1fa377977e04ab02a616ec313d057d276d3e259fa44c2",
+			"__public_key__": "d1f588984e4a80e686291b6d6c4bb44c6716bb3320d37cc4534178d8ebd302089cdf7e0eff2a927d0093994164c49b5c9b7ef44992f74465febb170fd0ecc071"
 		},
 		"testnet-account": {
 			"address": "0xb7fb1e0ae6485cf6",
@@ -46,16 +56,15 @@
 	"deployments": {
 		"emulator": {
 			"emulator-account": [
-				"HelloWorld",
-				"HelloWorldResource",
-				"HelloWorldResource2",
-				"BasicNFT",
-				"ExampleNFT"
+				"ExampleToken",
+				"FungibleToken"
 			]
 		},
 		"testnet": {
 			"testnet-account": [
-				"HelloWorld"
+				"HelloWorld",
+				"FungibleToken",
+				"ExampleToken"
 			]
 		}
 	}

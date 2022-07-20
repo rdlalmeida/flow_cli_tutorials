@@ -45,9 +45,15 @@ mongosh -- "${MONGO_INITDB_DATABASE}" <<EOF
 		} ],
 		mechanisms: [ "SCRAM-SHA-1" ]
 		});
+
+		// And login into the newly created credential pair
+		let response = db.auth(rootUser, rootPassword)
 		
 		// Inform the user
 		console.log("User '".concat(${MONGO_INITDB_USERNAME}).concat(" in database '").concat(${MONGO_INITDB_DATABASE}).concat("'"));
+		
+		// Log off from the command line prompt
+		quit
 	}
 EOF
 
