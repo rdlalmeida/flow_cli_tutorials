@@ -26,6 +26,7 @@ pub contract ExampleToken {
 
     pub let VaultMinterStoragePath: StoragePath
     pub let VaultMinterPublicPath: PublicPath
+    pub let VaultMinterPrivatePath: PrivatePath
 
 
     // Provider
@@ -89,6 +90,8 @@ pub contract ExampleToken {
     //
     pub resource interface Balance {
         pub var balance: UFix64
+
+        pub fun getBalance(): UFix64
     }
 
     // Vault
@@ -124,6 +127,10 @@ pub contract ExampleToken {
         // elsewhere.
         //
         pub fun withdraw(amount: UFix64): @Vault {
+            pre {
+                amount <= self.balance: "This account (".concat((self.owner!).address.toString()).concat(") does not have enough funds for this operation!")
+            }
+
             self.balance = self.balance - amount
             return <-create Vault(balance: amount)
         }
@@ -139,6 +146,10 @@ pub contract ExampleToken {
         pub fun deposit(from: @Vault) {
             self.balance = self.balance + from.balance
             destroy from
+        }
+
+        pub fun getBalance(): UFix64 {
+            return self.balance
         }
     }
 
@@ -166,7 +177,7 @@ pub contract ExampleToken {
             let recipientRef = recipient.borrow()
                 ?? panic("Could not borrow a receiver reference to the vault")
 
-            ExampleToken.totalSupply = ExampleToken.totalSupply + UFix64(amount)
+            ExampleToken.totalSupply = ExampleToken.totalSupply - amount
             recipientRef.deposit(from: <-create Vault(balance: amount))
         }
     }
@@ -186,6 +197,8 @@ pub contract ExampleToken {
 
         self.VaultMinterStoragePath = /storage/VaultMinterStoragePath
         self.VaultMinterPublicPath = /public/VaultMinterStoragePath
+        self.VaultMinterPrivatePath = /private/VaultMinterStoragePath
+
 
         self.totalSupply = 3000.0
 
@@ -200,7 +213,11 @@ pub contract ExampleToken {
         //self.account.save(<-vault, to: /storage/CadenceFungibleTokenTutorialVault)
 
         // Create a new MintAndBurn resource and store it in account storage
-        self.account.save(<- create VaultMinter(), to: self.VaultMinterStoragePath)
+        self.account.save(<- create VaultMinter(), to: /storage/VaultMinterStoragePath)
+
+        let mintingRef = self.account.borrow<&ExampleToken.VaultMinter>(from: /storage/VaultMinterStoragePath) ?? panic("Could not borrow a reference to the minter")
+        
+        log("Got the damn reference right!")
         // self.account.save(<-create VaultMinter(), to: /storage/CadenceFungibleTokenTutorialMinter)
 
         // Create a private capability link for the Minter
@@ -210,6 +227,7 @@ pub contract ExampleToken {
         //
         // The capability is stored in the /private/ domain, which is only
         // accesible by the owner of the account
-        self.account.link<&VaultMinter>(/private/Minter, target: /storage/CadenceFungibleTokenTutorialMinter)
+        // self.account.link<&VaultMinter>(/private/Minter, target: /storage/CadenceFungibleTokenTutorialMinter)
+        // self.account.link<&VaultMinter>(self.VaultMinterPrivatePath, target: self.VaultMinterStoragePath)
     }
 }
