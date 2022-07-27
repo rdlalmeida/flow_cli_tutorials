@@ -92,15 +92,34 @@ pub contract ExampleNFT {
     }
 
     /*
-        mintNFT
+        NFTMinter
 
-        Function that mints a new NFT with a new ID and returns it to the caller
+        Resource that would be owned by an admin or by a smart contract that allows them to mint new NFTs when needed
     */
-    pub fun mintNFT(): @NFT {
-        // Create a new NFT
-        var newNFT <- create NFT()
+    pub resource NFTMinter{
+        /*
+            The ID that is used to mint NFTs it is only incremented so that NFT ids remain unique. It also keeps track of the total number of
+            NFTs in existence
+        */
+        pub var idCount: UInt64
 
-        return <- newNFT
+        init() {
+            self.idCount = 0
+        }
+
+        /*
+            mintNFT
+
+            Function that mints a new NFT with a new ID and returns it to the caller
+        */
+        pub fun mintNFT(): @NFT {
+            // Create a new NFT
+            var newNFT <- create NFT()
+
+            self.idCount = self.idCount + 1
+
+            return <- newNFT
+        }
     }
 
     init() {
@@ -108,10 +127,29 @@ pub contract ExampleNFT {
         self.CollectionPublicPath = /public/nftTutorialCollection
         self.MinterStoragePath = /storage/nftTutorialMinter
 
+        // Clean up storage, as always
+        let randomCollection: @AnyResource <- self.account.load<@AnyResource>(from: self.CollectionStoragePath)
+
+        if (randomCollection == nil) {
+            destroy randomCollection
+        }
+        else {
+            log(
+                "Retrieved a '"
+                .concat(randomCollection.getType().identifier)
+                .concat("' from storage. Destroying it...")
+            )
+
+            destroy randomCollection
+        }
+
         // Store an empty NFT Collection in account storage
         self.account.save(<- self.createEmptyCollection(), to: self.CollectionStoragePath)
 
         // Publish a reference to the Collection in storage
         self.account.link<&{NFTReceiver}>(self.CollectionPublicPath, target: self.CollectionStoragePath)
+
+        // Store a minter resource in account storage
+        self.account.save(<- create NFTMinter(), to: self.MinterStoragePath)
     }
 }

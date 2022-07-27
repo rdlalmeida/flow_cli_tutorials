@@ -12,7 +12,7 @@
 
 pub contract ExampleToken {
 
-    // Total supply of all tokens in existence.
+    // Total supply of all tokens in existence
     pub var totalSupply: UFix64
 
     pub let VaultStoragePath: StoragePath
@@ -27,6 +27,8 @@ pub contract ExampleToken {
     pub let VaultMinterStoragePath: StoragePath
     pub let VaultMinterPublicPath: PublicPath
     pub let VaultMinterPrivatePath: PrivatePath
+
+    pub event TokensMinted(amount: UFix64, recipientAddress: Address)
 
 
     // Provider
@@ -179,6 +181,9 @@ pub contract ExampleToken {
 
             ExampleToken.totalSupply = ExampleToken.totalSupply - amount
             recipientRef.deposit(from: <-create Vault(balance: amount))
+
+            // Emit the related event
+            emit TokensMinted(amount: amount, recipientAddress: recipient.address)
         }
     }
 
@@ -208,10 +213,48 @@ pub contract ExampleToken {
         // The domain must be `storage`, `private`, or `public`
         // the identifier can be any name
         let vault <- create Vault(balance: self.totalSupply)
+
+        // Clean up the resource storage before attempting to save the vault resource
+        let randomVault: @AnyResource <- self.account.load<@AnyResource>(from: self.VaultStoragePath)
+
+        if (randomVault == nil) {
+            // Nothing was found in the storage path. Destroy the nil resource captured and move on
+            destroy randomVault
+        }
+        else {
+            // Log the Resource type retrieved and destroy it before moving on
+            log(
+                "Retrieved a '"
+                .concat(randomVault.getType().identifier)
+                .concat("' resource from Storage. Destroying it...")
+            )
+
+            destroy randomVault
+        }
+
+        // Now that I've ensured that the storage area is free, save the thing then
         self.account.save(<- vault, to: self.VaultStoragePath)
         
         //self.account.save(<-vault, to: /storage/CadenceFungibleTokenTutorialVault)
 
+        // Repeat the storage cleanse process than before
+        let randomMinter:@AnyResource <- self.account.load<@AnyResource>(from: self.VaultMinterStoragePath)
+
+        if (randomMinter == nil) {
+            // Nothing. Destroy it
+            destroy randomMinter
+        }
+        else {
+            // Log the thing
+            log(
+                "Retrieved a '"
+                .concat(randomMinter.getType().identifier)
+                .concat("' resource from storage. Destroying it...")
+            )
+
+            destroy randomMinter
+        }
+        
         // Create a new MintAndBurn resource and store it in account storage
         self.account.save(<- create VaultMinter(), to: /storage/VaultMinterStoragePath)
 
