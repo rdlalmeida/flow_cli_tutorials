@@ -17,19 +17,9 @@ transaction() {
         // Retrive a reference from a purposely non-existent path to force the variable to have the Never? type for comparison
         let nullValue = account.borrow<&ExampleNFT.Collection>(from: /storage/InexistentLocationOnPurpose)
 
-        // Clean up the storage first. Try and retrieve a reference for any resource stored in the defined path
-        // let collectionRef = account.borrow<&AnyResource>(from: ExampleNFT.CollectionStoragePath)
-        // let collectionRef = account.borrow<&ExampleNFT.Collection>(from: /storage/InexistentPath)
-
-        /* 
-            I now have a reference from something already in storage that has the same type than the resource there: funny thing about references and resources in
-            Cadence: a resource and the reference to THAT resource have the same data types! This is very useful to avoid pointless storage retrievals,
-            as well reseting account states if a contract needs to be re-deployed (which in some cases is actually what is inteded).
-            If there is a resource already in storage with the desired type, than the reference returned will have matching types (ExampleNFT.Collection)
-            Otherwise, if there's nothing there and a Never? is returned instead
-        */
-
-
+        // Lets start from the top: the most restrictive Resource type is the dreaded 'Never?' since this bitch evaluates to nil whenever
+        // you try to force cast it with a '!'. As such, the best way to deal with it is to ensure that it is indeed the case and move on
+        // to more advanced logic only if I am 100% sure that whatever's in storage is not definetely a 'Never?'
         if (referenceType == nullValue.getType()) {
             log(
                 "No ExampleNFT.Collection found in '"
