@@ -8,10 +8,19 @@ import ExampleNFT from "../../05/contracts/ExampleNFT.cdc"
 transaction(recipientAddress: Address) {
     // private reference to this account's minter resource
     let minterRef: &ExampleNFT.NFTMinter
+    
+    // A random storage path to ensure its emptiness in order to retrieve a 'Never?' resource type
+    let bogusPath: StoragePath
 
     prepare(account: AuthAccount) {
+        // Setup a bogus path
+        self.bogusPath = /storage/InexistentLocationOnPurpose
+
         // Create a new vault instance with an initial balance of 30
         let vaultA <- ExampleToken.createEmptyVault()
+
+        // Get the reference of whate
+        let referenceType: Type? = account.type(at: ExampleToken.VaultStoragePath)
 
         // Clean up the storage first before attempting to save anything to that path
         let randomResource <- account.load<@AnyResource>(from: ExampleToken.VaultStoragePath)

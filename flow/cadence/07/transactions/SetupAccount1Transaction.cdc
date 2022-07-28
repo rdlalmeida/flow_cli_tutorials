@@ -6,16 +6,24 @@ import ExampleNFT from "../../05/contracts/ExampleNFT.cdc"
     and creating an empty NFT Collection
 */
 transaction() {
+    let bogusPath: StoragePath
     prepare(account: AuthAccount) {
         // Create a public Receiver capability to the Vault. I can do this because the contract constructor guarantees a vault in storage for the signing account
         account.link<&ExampleToken.Vault{ExampleToken.Receiver, ExampleToken.Balance}>(ExampleToken.VaultPublicPath, target: ExampleToken.VaultStoragePath)
 
         log("Created Vault references")
 
-        let referenceType: Type? = account.type(at: ExampleNFT.CollectionStoragePath)
+        // Setup the bogus path at this point
+        self.bogusPath = /storage/InexistentLocationOnPurpose
+
+        // Cleanup the bogus storage path to ensure the retrieval of a 'Never?' in the next instruction
+        destroy <- account.load<@AnyResource>(from: self.bogusPath)
 
         // Retrive a reference from a purposely non-existent path to force the variable to have the Never? type for comparison
-        let nullValue = account.borrow<&ExampleNFT.Collection>(from: /storage/InexistentLocationOnPurpose)
+        let nullValue = account.borrow<&ExampleNFT.Collection>(from: self.bogusPath)
+
+        // And now the type of reference set in storage
+        let referenceType: Type? = account.type(at: ExampleNFT.CollectionStoragePath)
 
         // Lets start from the top: the most restrictive Resource type is the dreaded 'Never?' since this bitch evaluates to nil whenever
         // you try to force cast it with a '!'. As such, the best way to deal with it is to ensure that it is indeed the case and move on
