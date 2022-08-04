@@ -1,4 +1,5 @@
 import ExampleToken from "../contracts/ExampleToken.cdc"
+import ExampleNFT from "../../05/contracts/ExampleNFT.cdc"
 
 pub fun main() {
     // A simple array with all the accounts currently defined in the emulator
@@ -15,7 +16,7 @@ pub fun main() {
             log(
                 "Account "
                 .concat(emulator_account.toString())
-                .concat(" does not h0xe03daebed8ca0615as a Vault configured!")
+                .concat(" does not has a Vault configured!")
                 )
         }
         else {
@@ -29,6 +30,29 @@ pub fun main() {
                 .concat(balance.toString())
                 .concat(" tokens in it")
                 )
+        }
+
+        // Now for the NFTs
+        let nftReference: &ExampleNFT.Collection{ExampleNFT.NFTReceiver}? = 
+            getAccount(emulator_account).getCapability<&ExampleNFT.Collection{ExampleNFT.NFTReceiver}>(ExampleNFT.CollectionPublicPath).borrow()
+
+        if (nftReference ==  nil) {
+            log(
+                "No NFT collections found for account "
+                .concat(emulator_account.toString())
+            )
+        }
+        else {
+            // Borrow references from the capabilities
+            let normalizedNFTReference = (nftReference as &ExampleNFT.Collection{ExampleNFT.NFTReceiver}?)!
+
+            // Print out all the NFT ids in that account's collection
+            log(
+                "Account "
+                .concat(emulator_account.toString())
+                .concat(" NFTs:")
+            )
+            log(normalizedNFTReference.getIDs())
         }
     }
 

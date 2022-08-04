@@ -17,6 +17,7 @@ pub contract ExampleToken {
 
     pub let VaultStoragePath: StoragePath
     pub let VaultPublicPath: PublicPath
+    pub let VaultPrivatePath: PrivatePath
 
     pub let BalanceStoragePath: StoragePath
     pub let BalancePublicPath: PublicPath
@@ -193,6 +194,7 @@ pub contract ExampleToken {
     init() {
         self.VaultStoragePath = /storage/VaultStoragePath
         self.VaultPublicPath = /public/VaultStoragePath
+        self.VaultPrivatePath = /private/VaultStoragePath
 
         self.BalanceStoragePath = /storage/BalanceStoragePath
         self.BalancePublicPath = /public/BalanceStoragePath

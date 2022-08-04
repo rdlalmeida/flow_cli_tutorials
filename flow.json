@@ -6,6 +6,13 @@
 		}
 	},
 	"contracts": {
+		"NonFungibleToken": {
+			"source": "./flow/cadence/00/contracts/NonFungibleToken.cdc",
+			"aliases": {
+				"testnet": "0x631e88ae7f1d7c20"
+			}
+		},
+		"CryptoPoops": "./flow/cadence/00/contracts/CryptoPoops.cdc",
 		"HelloWorld": "./flow/cadence/01/contracts/HelloWorld.cdc",
                 "HelloWorldResource": "./flow/cadence/02/contracts/HelloWorldResource.cdc",
                 "HelloWorldResource2": "./flow/cadence/03/contracts/HelloWorldResource2.cdc",
@@ -15,7 +22,8 @@
                 "FungibleToken": "./flow/cadence/06/contracts/FungibleToken.cdc",
                 "ExampleToken": "./flow/cadence/06/contracts/ExampleToken.cdc",
                 "ResourceInterface": "./flow/cadence/06/contracts/ResourceInterface.cdc",
-                "InterfacedContract": "./flow/cadence/06/contracts/InterfacedContract.cdc"
+                "InterfacedContract": "./flow/cadence/06/contracts/InterfacedContract.cdc",
+		"ExampleMarketplace": "./flow/cadence/08/contracts/ExampleMarketplace.cdc"
 
 	},
 	"networks": {
@@ -59,15 +67,13 @@
 	"deployments": {
 		"emulator": {
 			"emulator-account": [
-				"ExampleToken",
-				"ExampleNFT"
+				"CryptoPoops",
+				"NonFungibleToken"
 			]
 		},
 		"testnet": {
 			"testnet-account": [
-				"HelloWorld",
-				"FungibleToken",
-				"ExampleToken"
+				"CryptoPoops"
 			]
 		}
 	}

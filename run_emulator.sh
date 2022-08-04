@@ -104,10 +104,10 @@ SERVICE_SIG_ALGO=ECDSA_P256
 SERVICE_HASH_ALGO=SHA3_256
 
 # export $REST_DEBUG=false
-REST_DEBUG=false
+REST_DEBUG=true
 
 # export $GRPC_DEBUG=false
-GRPC_DEBUG=false
+GRPC_DEBUG=true
 
 # export $PERSIST=true
 PERSIST=true

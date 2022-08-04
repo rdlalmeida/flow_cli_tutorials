@@ -9,6 +9,7 @@ pub contract ExampleNFT {
         Declare Path constants so paths do not have to be hardcoded in transactions and scripts
     */
     pub let CollectionStoragePath: StoragePath
+    pub let CollectionPrivatePath: PrivatePath
     pub let CollectionPublicPath: PublicPath
     pub let MinterStoragePath: StoragePath
 
@@ -124,6 +125,7 @@ pub contract ExampleNFT {
 
     init() {
         self.CollectionStoragePath = /storage/nftTutorialCollection
+        self.CollectionPrivatePath = /private/nftTutorialCollection
         self.CollectionPublicPath = /public/nftTutorialCollection
         self.MinterStoragePath = /storage/nftTutorialMinter
 
@@ -145,11 +147,31 @@ pub contract ExampleNFT {
 
         // Store an empty NFT Collection in account storage
         self.account.save(<- self.createEmptyCollection(), to: self.CollectionStoragePath)
+        log(
+            "Created new empty collection in "
+            .concat(self.CollectionStoragePath.toString())
+            .concat(" for account ")
+            .concat(self.account.address.toString())
+        )
 
         // Publish a reference to the Collection in storage
-        self.account.link<&{NFTReceiver}>(self.CollectionPublicPath, target: self.CollectionStoragePath)
+        self.account.link<&ExampleNFT.Collection{ExampleNFT.NFTReceiver}>(self.CollectionPublicPath, target: self.CollectionStoragePath)
+        log(
+            "Linked a Capability from "
+            .concat(self.CollectionStoragePath.toString())
+            .concat(" to ")
+            .concat(self.CollectionPublicPath.toString())
+            .concat(" for account ")
+            .concat(self.account.address.toString())
+        )
 
         // Store a minter resource in account storage
         self.account.save(<- create NFTMinter(), to: self.MinterStoragePath)
+        log(
+            "Saved a NFT Minter in "
+            .concat(self.MinterStoragePath.toString())
+            .concat(" for account ")
+            .concat(self.account.address.toString())
+        )
     }
 }
