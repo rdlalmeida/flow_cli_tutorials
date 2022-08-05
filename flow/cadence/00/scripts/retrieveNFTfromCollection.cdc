@@ -1,7 +1,7 @@
 import CryptoPoops from "../contracts/CryptoPoops.cdc"
 import NonFungibleToken from "../contracts/NonFungibleToken.cdc"
 
-pub fun main(depositAddress: Address) {
+pub fun main(depositAddress: Address): String {
     // Get the Collection reference from the depositAddress provided using a Capability. This should be a '&CryptoPoops.Collection' type instead of
     // '&NonFunglibleToken.Collection' because the resource was already downcast after creation
     let collectionReference: &CryptoPoops.Collection = getAccount(depositAddress).getCapability<&CryptoPoops.Collection>(CryptoPoops.CollectionPublicPath).borrow()
@@ -34,12 +34,5 @@ pub fun main(depositAddress: Address) {
     let poopNFTRef = collectionReference.borrowAuthNFT(id: nftIds[nftIds.length - 1])
 
     // All good. Use the NFT reference to log the internal fields exposed only in the specific NFT type
-    log(
-        "Gor a NFT named '"
-        .concat(poopNFTRef.name)
-        .concat("', whose favourite food is ")
-        .concat(poopNFTRef.favouriteFood)
-        .concat(" and feels lucky around number ")
-        .concat(poopNFTRef.luckyNumber.toString())
-    )
+    return "Got a NFT named '".concat(poopNFTRef.name).concat("', whose favourite food is ").concat(poopNFTRef.favouriteFood).concat(" and feels lucky around number ").concat(poopNFTRef.luckyNumber.toString())
 }

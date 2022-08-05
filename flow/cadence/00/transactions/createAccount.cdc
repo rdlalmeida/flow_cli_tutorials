@@ -1,6 +1,33 @@
 /*
     This transaction is used to create new accounts (on the offline emulator for now). As such, the transaction requires a public key
-    (as a String) to be provided to add to the account to create.
+    (as a String) to be provided to add to the account to create. To get a valid public key from a public-private pair, run "flow keys generate"
+    in a FLOW CLI to obtain such a pair. Use the public key (String) as input for this transaction and write down the corresponding private
+    one in the flow.json used to run the emulator. 
+    The address of the account created is returned as output of this transaction (this address needs to be added to flow.json too)
+    In summary, to create an account in flow emulator:
+    
+    1. Start the emulator in a terminal
+    2. In another terminal, with FLOW CLI installed, run: "flow keys generate"
+    3. Copy the public key returned from the last command, and run this transaction using that key as argument and signing it with the emulator's
+        service account (defined as emulator-account in flow.json). NOTE: The service account needs to have some funds (not a lot really) to run
+        this. Example:
+            $ flow transactions send <path_to_this_transactions_cdc_file> <PublicKey_returned_from_1> --signer emulator-account --network emulator
+    4. If successful, this transaction outputs the address of the new account created INTO THE EMULATOR'S OUTPUT (not the transaction's output), hence
+        why you need to have a terminal with the emulator running in it. Check it for the address of the new account.
+    5. Copy the address returned from the emulator output and the Private key from the pair generated in 2., and add these as elements for a new
+        account entry in the flow.json file that is being used to run the emulator in 1. Example:
+                "emulator-account": {
+                        "address": "0xf8d6e0586b0a20c7",                                                            
+                        "key": "680fa28962650ef346a7edf23d63967b0fcf44958488d0d48f8539ece6e92eba",                                                                               
+                },                                                                                                  
+                "account01": {                                                                                      
+                        "address": "0x01cf0e2f2f715450",                                                            
+                        "key": "2df342adc4f8fc5a2c91c6759c766096b2afe3660a861d4b83f815b7d3e06b27"                                                             
+                }
+            In this case, "account01" is just an alias (use whatever name you wish) that can be used to sign transactions, for example, the value
+            in the "address" key is the address returned from this transaction's output in the emulator terminal and the value in the key "key" is
+            the PRIVATE KEY from the pair obtained from step 2.
+    6. There's no need to restart the emulator. Simple save the flow.json with the new account and it is ready for use.
 */
 transaction(publicKey: String) {
     /*
