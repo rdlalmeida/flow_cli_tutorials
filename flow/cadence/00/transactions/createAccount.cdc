@@ -22,7 +22,7 @@
             In this case, "account01" is just an alias (use whatever name you wish) that can be used to sign transactions, for example, the value
             in the "address" key is the address returned from this transaction's output in the emulator terminal and the value in the key "key" is
             the PRIVATE KEY from the pair obtained from step 2.
-    6. There's no need to restart the emulator. Simple save the flow.json with the new account and it is ready for use.
+    6. There's no need to restart the emulator. Save the flow.json with the new account in it and it is ready for use.
 */
 transaction(publicKey: String) {
     /*
