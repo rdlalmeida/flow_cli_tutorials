@@ -1,10 +1,5 @@
 /*
-    This transaction is used to create new accounts (on the offline emulator for now). As such, the transaction requires a public key
-    (as a String) to be provided to add to the account to create. To get a valid public key from a public-private pair, run "flow keys generate"
-    in a FLOW CLI to obtain such a pair. Use the public key (String) as input for this transaction and write down the corresponding private
-    one in the flow.json used to run the emulator. 
-    The address of the account created is returned as output of this transaction (this address needs to be added to flow.json too)
-    In summary, to create an account in flow emulator:
+    To create an account in flow emulator:
     
     1. Start the emulator in a terminal
     2. In another terminal, with FLOW CLI installed, run: "flow keys generate"
