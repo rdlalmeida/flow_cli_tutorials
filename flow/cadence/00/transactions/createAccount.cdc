@@ -6,7 +6,7 @@
     3. Copy the public key returned from the last command, and run this transaction using that key as argument and signing it with the emulator's
         service account (defined as emulator-account in flow.json). NOTE: The service account needs to have some funds (not a lot really) to run
         this. Example:
-            $ flow transactions send <path_to_this_transactions_cdc_file> <PublicKey_returned_from_1> --signer emulator-account --network emulator
+            $ flow transactions send <path_to_this_transactions_cdc_file> <PublicKey_returned_from_2> --signer emulator-account --network emulator
     4. If successful, this transaction outputs the address of the new account created INTO THE EMULATOR'S OUTPUT (not the transaction's output), hence
         why you need to have a terminal with the emulator running in it. Check it for the address of the new account.
     5. Copy the address returned from the emulator output and the Private key from the pair generated in 2., and add these as elements for a new
