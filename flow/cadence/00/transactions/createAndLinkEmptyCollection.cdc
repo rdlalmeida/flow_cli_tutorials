@@ -22,8 +22,8 @@ transaction() {
             )
         }
         else {
-            // If the code gets here, the assumption is that there is something in storage and that something is the collection. Check the type
-            // returned and move from there
+            // If the code gets here, the assumption is that there is something in storage and that something is the collection I'm looking for. 
+            // But right now, that variable is still optional. Force-cast it to the desired type
             collectionReference = collectionReference as! &CryptoPoops.Collection
 
             // If the code gets here, the last instruction was successful, which implies that the type of the resource is the one I'm looking for

@@ -1,7 +1,9 @@
-import ExampleToken from "../contracts/ExampleToken.cdc"
+// import ExampleToken from "../contracts/ExampleToken.cdc"
+// import ExampleToken from "/home/ricardoalmeida/Flow_projects/Flow_CLI_Tutorials/flow_cli_tutorials/flow/cadence/06/contracts/ExampleToken.cdc"
+import ExampleToken from 0xf8d6e0586b0a20c7
 
 // This transaction mints tokens and deposits them into account's 3 vault
-transaction(recipientAddress: Address, amount: UFix64) {
+transaction(amount: UFix64, recipientAddress: Address) {
     // Local variable for storing the reference to the minter resource
     var mintingRef: &ExampleToken.VaultMinter
 

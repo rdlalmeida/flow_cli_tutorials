@@ -29,7 +29,7 @@ pub contract ExampleMarketplace {
 
     // Interface that users will publish for their Sale collection than only exposes the methods that are supposed to be public
     pub resource interface SalePublic {
-        pub fun purchase(tokenID: UInt64, recipient: Capability<&ExampleNFT.Collection{ExampleNFT.NFTReceiver}>, buyTokens: @ExampleToken.Vault)
+        pub fun purchase(tokenID: UInt64, recipient: Capability<&AnyResource{ExampleNFT.NFTReceiver}>, buyTokens: @ExampleToken.Vault)
         pub fun idPrice(tokenID: UInt64): UFix64?
         pub fun getIDs(): [UInt64]
         pub fun getNFTs(): {UInt64: UFix64}
@@ -92,7 +92,7 @@ pub contract ExampleMarketplace {
         }
 
         // Purchase lets a user send tokens to purchase an NFT that is for sale
-        pub fun purchase(tokenID: UInt64, recipient: Capability<&ExampleNFT.Collection{ExampleNFT.NFTReceiver}>, buyTokens: @ExampleToken.Vault) {
+        pub fun purchase(tokenID: UInt64, recipient: Capability<&AnyResource{ExampleNFT.NFTReceiver}>, buyTokens: @ExampleToken.Vault) {
             pre {
                 self.prices[tokenID] != nil: "No token matching this ID for sale!"
 
@@ -102,18 +102,18 @@ pub contract ExampleMarketplace {
             }
 
             // Get the value out of the optional
-            let price = self.prices[tokenID]!
+            let price: UFix64 = self.prices[tokenID]!
 
             self.prices[tokenID] = nil
 
-            let vaultRef = self.ownerVault.borrow() ?? panic("Could not borrow reference to owner token vault")
+            let vaultRef: &AnyResource{ExampleToken.Receiver} = self.ownerVault.borrow() ?? panic("Could not borrow reference to owner token vault")
 
             // Deposit the purchasing tokens into the owners vault
             vaultRef.deposit(from: <- buyTokens)
 
             // Borrow a reference to the object that the receiver capability links to. We can force-cast the result here because it has already
             // been checked in the pre-conditions
-            let receiverReference = recipient.borrow()!
+            let receiverReference: &AnyResource{ExampleNFT.NFTReceiver} = recipient.borrow() ?? panic("Unable to borrow a Reference from the Capability!")
 
             // Deposit the NFT into the buyers collection
             receiverReference.deposit(token: <- self.ownerCollection.borrow()!.withdraw(withdrawID: tokenID))
@@ -134,7 +134,7 @@ pub contract ExampleMarketplace {
         // Function to return the full 'prices' dictionary
         pub fun getNFTs(): {UInt64: UFix64} {
             return self.prices
-        }
+        } 
     }
 
     // createCollection returns a new collection resource to the caller
@@ -151,3 +151,4 @@ pub contract ExampleMarketplace {
         self.SalePrivatePath = /private/SalePath
     }
 }
+ 

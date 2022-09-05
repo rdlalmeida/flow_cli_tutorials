@@ -1,4 +1,5 @@
-import ExampleNFT from "../contracts/ExampleNFT.cdc"
+// import ExampleNFT from "../contracts/ExampleNFT.cdc"
+import ExampleNFT from 0xf8d6e0586b0a20c7
 
 /*
     This transaction allows the Minter account to mint an NFT and deposit it into its collection
@@ -11,8 +12,7 @@ transaction(receiverAddress: Address) {
 
     prepare(account: AuthAccount) {
         // Get the owner's collection capability and borrow a reference
-        let receiverCapability = getAccount(receiverAddress).getCapability<&ExampleNFT.Collection{ExampleNFT.NFTReceiver}>(ExampleNFT.CollectionPublicPath)
-
+        let receiverCapability: Capability<&ExampleNFT.Collection{ExampleNFT.NFTReceiver}> = getAccount(receiverAddress).getCapability<&ExampleNFT.Collection{ExampleNFT.NFTReceiver}>(ExampleNFT.CollectionPublicPath)
         self.receiverRef = receiverCapability.borrow() ?? panic("Could not find a valid collection in ".concat(ExampleNFT.CollectionPublicPath.toString()))
 
         self.minterRef = account.borrow<&ExampleNFT.NFTMinter>(from: ExampleNFT.MinterStoragePath) 
@@ -21,7 +21,7 @@ transaction(receiverAddress: Address) {
 
     execute {
         // Use the minter reference to mint an NFT, which deposits the NFT into the collections that is sent as a parameter
-        let newNFT <- self.minterRef.mintNFT()
+        let newNFT: @ExampleNFT.NFT <- self.minterRef.mintNFT()
 
         self.receiverRef.deposit(token: <- newNFT)
 
@@ -32,3 +32,4 @@ transaction(receiverAddress: Address) {
         )
     }
 }
+ 

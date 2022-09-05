@@ -9,7 +9,14 @@
 		"NonFungibleToken": {
 			"source": "./flow/cadence/00/contracts/NonFungibleToken.cdc",
 			"aliases": {
-				"testnet": "0x631e88ae7f1d7c20"
+				"testnet": "0x631e88ae7f1d7c20",
+				"mainnet": "0x1d7e57aa55817448"
+			}
+		},
+		"MetadataViews": {
+			"source": "./flow/cadence/00/contracts/MetadataViews.cdc",
+			"aliases": {
+				"mainnet": "0x1d7e57aa55817448"
 			}
 		},
 		"CryptoPoops": "./flow/cadence/00/contracts/CryptoPoops.cdc",
@@ -19,11 +26,29 @@
 		"BasicNFT": "./flow/cadence/04/contracts/BasicNFT.cdc",
 		"ExampleNFT": "./flow/cadence/05/contracts/ExampleNFT.cdc",
 		"BasicToken": "./flow/cadence/06/contracts/BasicToken.cdc",
-		"FungibleToken": "./flow/cadence/06/contracts/FungibleToken.cdc",
 		"ExampleToken": "./flow/cadence/06/contracts/ExampleToken.cdc",
 		"ResourceInterface": "./flow/cadence/06/contracts/ResourceInterface.cdc",
 		"InterfacedContract": "./flow/cadence/06/contracts/InterfacedContract.cdc",
-		"ExampleMarketplace": "./flow/cadence/08/contracts/ExampleMarketplace.cdc"
+		"ExampleMarketplace": "./flow/cadence/08/contracts/ExampleMarketplace.cdc",
+		"FungibleToken": {
+			"source": "./flow/cadence/00/contracts/FungibleToken.cdc",
+			"aliases": {
+				"mainnet": "0xf233dcee88fe0abe"
+			}
+		},
+		"TopShot": {
+			"source": "./flow/cadence/00/contracts/TopShot.cdc",
+			"aliases": {
+				"mainnet": "0x0b2a3299cc857e29"
+			}
+		},
+		"TopShotLocking": {
+			"source": "./flow/cadence/00/contracts/TopShotLocking.cdc",
+			"aliases": {
+				"mainnet": "0x0b2a3299cc857e29"
+			}
+		}
+
 
 	},
 	"networks": {
@@ -52,6 +77,11 @@
 			"key": "61d9ac65e0a1fc9295b1fa377977e04ab02a616ec313d057d276d3e259fa44c2",
 			"__publickey__": "d1f588984e4a80e686291b6d6c4bb44c6716bb3320d37cc4534178d8ebd302089cdf7e0eff2a927d0093994164c49b5c9b7ef44992f74465febb170fd0ecc071"
 		},
+		"account04": {
+			"address": "0xe03daebed8ca0615",
+			"key": "6e0e03c1e7cd08d15d8b10bc000ec8a15a3b7031526053e99e37eda9713d0320",
+			"__publickey__": "33751438b6125254679649a8fd2e0ddb8657185628dd55e7bd3005061631e24be1cd0f7b5713b6d0dc4d79343a826349f35a8c7a5467e6e67a382c3cc9cf188f"
+		},
 		"testnet-account": {
                         "address": "0xb7fb1e0ae6485cf6",
                         "key" : {
@@ -67,8 +97,9 @@
 	"deployments": {
 		"emulator": {
 			"emulator-account": [
-				"CryptoPoops",
-				"NonFungibleToken"
+				"ExampleToken",
+				"ExampleNFT",
+				"ExampleMarketplace"
 			]
 		},
 		"testnet": {

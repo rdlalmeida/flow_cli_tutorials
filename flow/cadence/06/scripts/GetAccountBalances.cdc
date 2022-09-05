@@ -3,8 +3,8 @@ import ExampleNFT from "../../05/contracts/ExampleNFT.cdc"
 
 pub fun main() {
     // A simple array with all the accounts currently defined in the emulator
-    // let emulatorAccounts: [Address] = [0xf8d6e0586b0a20c7, 0xf3fcd2c1a78f5eee, 0x179b6b1cb6755e31, 0xe03daebed8ca0615]
-    let emulatorAccounts: [Address] = [0xf8d6e0586b0a20c7, 0x01cf0e2f2f715450, 0x179b6b1cb6755e31, 0xf3fcd2c1a78f5eee]
+    // let emulatorAccounts: [Address] = [0xf8d6e0586b0a20c7, 0xf3fcd2c1a78f5eee, 0x179b6b1cb6755e31, 0xe03daebed8ca0615, 0xe03daebed8ca0615]
+    let emulatorAccounts: [Address] = [0xf8d6e0586b0a20c7, 0x01cf0e2f2f715450, 0x179b6b1cb6755e31, 0xf3fcd2c1a78f5eee, 0xe03daebed8ca0615]
     
     for emulator_account in emulatorAccounts {
         // Try to retrieve a reference to a Vault from the standard storage
@@ -20,7 +20,8 @@ pub fun main() {
                 )
         }
         else {
-            let proper_vault_ref = (vault_ref as &ExampleToken.Vault{ExampleToken.Receiver, ExampleToken.Provider, ExampleToken.Balance}?)!
+            let proper_vault_ref: &ExampleToken.Vault{ExampleToken.Receiver, ExampleToken.Provider, ExampleToken.Balance} = vault_ref!
+            
             let balance = proper_vault_ref.getBalance()
 
             log(
@@ -44,7 +45,7 @@ pub fun main() {
         }
         else {
             // Borrow references from the capabilities
-            let normalizedNFTReference = (nftReference as &ExampleNFT.Collection{ExampleNFT.NFTReceiver}?)!
+            let normalizedNFTReference: &ExampleNFT.Collection{ExampleNFT.NFTReceiver} = nftReference!
 
             // Print out all the NFT ids in that account's collection
             log(

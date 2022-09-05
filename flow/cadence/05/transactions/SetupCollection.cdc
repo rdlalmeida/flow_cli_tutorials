@@ -1,4 +1,5 @@
-import ExampleNFT from "../../05/contracts/ExampleNFT.cdc"
+// import ExampleNFT from "../../05/contracts/ExampleNFT.cdc"
+import ExampleNFT from 0xf8d6e0586b0a20c7
 
 /*
     This transacrion configures a user's account to use the NFT contract by creating a new empty collection,

@@ -16,6 +16,9 @@ MONGO_INITDB_DATABASE=emulator_database
 MONGO_INITDB_USERNAME=emulator
 MONGO_INITDB_PASSWORD=emulatorpassword
 
+# Before anything else, test if the MongoDB service is running and start it if not
+eval $(systemctl is-active --quiet mongod && echo "mongod service is up and running. Nothing else to do" ||  systemctl start mongod)
+
 # Inits Mongo database and inserts the user if needed
 mongosh -- "${MONGO_INITDB_DATABASE}" <<EOF
 	// Set the credentials to use
@@ -139,7 +142,7 @@ TRANSACTION_MAX_GAS_LIMIT=9999
 # export $SCRIPT_GAS_LIMIT=100000
 SCRIPT_GAS_LIMIT=100000
 
-command_string="flow emulator start --port=${PORT} --rest-port=${REST_PORT} --admin-port=${ADMIN_PORT} --verbose=${VERBOSE} --log-format=${LOG_FORMAT} --block-time=${BLOCK_TIME} --contracts=${CONTRACTS} --service-priv-key=${SERVICE_PRIV_KEY} --service-pub-key=${SERVICE_PUB_KEY} --service-sig-algo=${SERVICE_SIG_ALGO} --service-hash-algo=${SERVICE_HASH_ALGO} --init=${INIT} --rest-debug=${REST_DEBUG} --grpc-debug=${GRPC_DEBUG} --persist=${PERSIST} --dbpath=${DB_PATH} --simple-addresses=${SIMPLE_ADDRESSES} --token-supply=${TOKEN_SUPPLY} --transaction-expiry=${TRANSACTION_EXPIRY} --storage-limit=${STORAGE_LIMIT}"
+command_string="flow emulator start --port=${PORT} --rest-port=${REST_PORT} --admin-port=${ADMIN_PORT} --verbose=${VERBOSE} --log-format=${LOG_FORMAT} --block-time=${BLOCK_TIME} --contracts=${CONTRACTS} --service-priv-key=${SERVICE_PRIV_KEY} --service-sig-algo=${SERVICE_SIG_ALGO} --service-hash-algo=${SERVICE_HASH_ALGO} --init=${INIT} --rest-debug=${REST_DEBUG} --grpc-debug=${GRPC_DEBUG} --persist=${PERSIST} --dbpath=${DB_PATH} --simple-addresses=${SIMPLE_ADDRESSES} --token-supply=${TOKEN_SUPPLY} --transaction-expiry=${TRANSACTION_EXPIRY} --storage-limit=${STORAGE_LIMIT}"
 
 if [ -n "$STORAGE_PER_FLOW" ];
 then

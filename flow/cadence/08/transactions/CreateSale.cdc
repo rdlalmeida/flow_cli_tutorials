@@ -1,6 +1,11 @@
-import ExampleToken from "../../06/contracts/ExampleToken.cdc"
-import ExampleNFT from "../../05/contracts/ExampleNFT.cdc"
-import ExampleMarketplace from "../contracts/ExampleMarketplace.cdc"
+// import ExampleToken from "../../06/contracts/ExampleToken.cdc"
+import ExampleToken from 0xf8d6e0586b0a20c7
+
+// import ExampleNFT from "../../05/contracts/ExampleNFT.cdc"
+import ExampleNFT from 0xf8d6e0586b0a20c7
+
+// import ExampleMarketplace from "../contracts/ExampleMarketplace.cdc"
+import ExampleMarketplace from 0xf8d6e0586b0a20c7
 
 /*
     This transactions creates a new Sale Collection object, lists an NFT for sale, puts it in account storage,
@@ -98,8 +103,8 @@ transaction(priceToSet: UFix64) {
             VERY IMPORTANT: Apparently Cadence does not does very well with alternative control flows, such as the one imposed by an if-else, namely,
             if I create the same variable (but under different conditions depending on the branch being run) with the same type and name, Cadence still
             does not recognizes this variable when outside of the if-else statement! That's quite limiting... The only way I've found to go around this
-            (other than simply destroying any existing Sale at will, which defeats the concept of a Marketplace) is to repeat the same following logic
-            in both branches... a lot of repeated code but it works...
+            (other than simply destroying any existing Sale at will, which defeats the concept of a Marketplace) is to repeat the same logic in both 
+            branches... a lot of repeated code but it works...
         */
         if (optionalSale == nil) {
             // The SaleCollection resource does not exist yet. Procee{ExampleMarketplace.SalePublic}d under this assumption
@@ -121,7 +126,7 @@ transaction(priceToSet: UFix64) {
         else {
             // In this case, there was something stored in storage but it is still an optional at this point. Remove this before moving on
             // let sale: @ExampleMarketplace.SaleCollection{ExampleMarketplace.SalePublic} <- (optionalSale as @ExampleMarketplace.SaleCollection{ExampleMarketplace.SalePublic}?)!
-            let sale: @ExampleMarketplace.SaleCollection <- (optionalSale as @ExampleMarketplace.SaleCollection?)!
+            let sale: @ExampleMarketplace.SaleCollection <- optionalSale!
 
             // Conversion done. List the new NFT sale into this resource
             sale.listForSale(tokenID: nftIdToSell, price: priceToSet)
