@@ -53,7 +53,7 @@ pub contract ExampleNFT {
         */
         pub fun withdraw(withdrawID: UInt64): @NFT {
             // If the NFT isn't found, the transaction panics and reverts
-            let token <- self.ownedNFTs.remove(key: withdrawID)!
+            let token: @ExampleNFT.NFT <- self.ownedNFTs.remove(key: withdrawID)!
 
             return <- token
         }
@@ -115,7 +115,7 @@ pub contract ExampleNFT {
         */
         pub fun mintNFT(): @NFT {
             // Create a new NFT
-            var newNFT <- create NFT()
+            var newNFT: @ExampleNFT.NFT <- create NFT()
 
             self.idCount = self.idCount + 1
 
