@@ -26,3 +26,4 @@ transaction(targetAddress: Address) {
             (/public/VaultStoragePath).check(): "Vault public reference was not created correctly"
     }
 }
+ 

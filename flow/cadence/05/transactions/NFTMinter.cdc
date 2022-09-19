@@ -1,5 +1,5 @@
-// import ExampleNFT from "../contracts/ExampleNFT.cdc"
-import ExampleNFT from 0xf8d6e0586b0a20c7
+import ExampleNFT from "../contracts/ExampleNFT.cdc"
+// import ExampleNFT from 0xf8d6e0586b0a20c7
 
 /*
     This transaction allows the Minter account to mint an NFT and deposit it into its collection

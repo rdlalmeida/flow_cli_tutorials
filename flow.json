@@ -9,6 +9,7 @@
 		"NonFungibleToken": {
 			"source": "./flow/cadence/00/contracts/NonFungibleToken.cdc",
 			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7",
 				"testnet": "0x631e88ae7f1d7c20",
 				"mainnet": "0x1d7e57aa55817448"
 			}
@@ -19,17 +20,72 @@
 				"mainnet": "0x1d7e57aa55817448"
 			}
 		},
-		"CryptoPoops": "./flow/cadence/00/contracts/CryptoPoops.cdc",
-		"HelloWorld": "./flow/cadence/01/contracts/HelloWorld.cdc",
-		"HelloWorldResource": "./flow/cadence/02/contracts/HelloWorldResource.cdc",
-		"HelloWorldResource2": "./flow/cadence/03/contracts/HelloWorldResource2.cdc",
-		"BasicNFT": "./flow/cadence/04/contracts/BasicNFT.cdc",
-		"ExampleNFT": "./flow/cadence/05/contracts/ExampleNFT.cdc",
-		"BasicToken": "./flow/cadence/06/contracts/BasicToken.cdc",
-		"ExampleToken": "./flow/cadence/06/contracts/ExampleToken.cdc",
-		"ResourceInterface": "./flow/cadence/06/contracts/ResourceInterface.cdc",
-		"InterfacedContract": "./flow/cadence/06/contracts/InterfacedContract.cdc",
-		"ExampleMarketplace": "./flow/cadence/08/contracts/ExampleMarketplace.cdc",
+		"CryptoPoops": {
+			"source" : "./flow/cadence/00/contracts/CryptoPoops.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7"
+			}
+		},
+		"HelloWorld": {
+			"source": "./flow/cadence/01/contracts/HelloWorld.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7"
+			}
+		},
+		"HelloWorldResource":  {
+			"source": "./flow/cadence/02/contracts/HelloWorldResource.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7"
+			}
+		},
+		"HelloWorldResource2":  {
+			"source": "./flow/cadence/03/contracts/HelloWorldResource2.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7"
+			}
+		},
+		"BasicNFT":  {
+			"source": "./flow/cadence/04/contracts/BasicNFT.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7"
+			}
+		},
+		"ExampleNFT":  {
+			"source": "./flow/cadence/05/contracts/ExampleNFT.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7"
+			}
+		},
+		"BasicToken":  {
+			"source": "./flow/cadence/06/contracts/BasicToken.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7"
+			}
+		},
+		"ExampleToken":  {
+			"source": "./flow/cadence/06/contracts/ExampleToken.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7"
+			}
+		},
+		"ResourceInterface":  {
+			"source": "./flow/cadence/06/contracts/ResourceInterface.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7"
+			}
+		},
+		"InterfacedContract":  {
+			"source": "./flow/cadence/06/contracts/InterfacedContract.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7"
+			}
+		},
+		"ExampleMarketplace":  {
+			"source": "./flow/cadence/08/contracts/ExampleMarketplace.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7"
+			}
+		},
 		"FungibleToken": {
 			"source": "./flow/cadence/00/contracts/FungibleToken.cdc",
 			"aliases": {
@@ -46,6 +102,13 @@
 			"source": "./flow/cadence/00/contracts/TopShotLocking.cdc",
 			"aliases": {
 				"mainnet": "0x0b2a3299cc857e29"
+			}
+		},
+		"ApprovalVoting": {
+			"source": "./flow/cadence/09/contracts/ApprovalVoting.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7",
+				"testnet": "0xb7fb1e0ae6485cf6"
 			}
 		}
 
@@ -97,9 +160,7 @@
 	"deployments": {
 		"emulator": {
 			"emulator-account": [
-				"ExampleToken",
-				"ExampleNFT",
-				"ExampleMarketplace"
+				"ApprovalVoting"
 			]
 		},
 		"testnet": {
