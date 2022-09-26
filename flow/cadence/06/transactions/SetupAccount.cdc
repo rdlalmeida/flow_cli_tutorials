@@ -1,6 +1,6 @@
-// import ExampleToken from "../contracts/ExampleToken.cdc"
+import ExampleToken from "../contracts/ExampleToken.cdc"
 // import ExampleToken from "/home/ricardoalmeida/Flow_projects/Flow_CLI_Tutorials/flow_cli_tutorials/flow/cadence/06/contracts/ExampleToken.cdc"
-import ExampleToken from 0xf8d6e0586b0a20c7
+// import ExampleToken from 0xf8d6e0586b0a20c7
 
 // This transaction configures an account to store and receive tokens defined by the ExampleToken contract
 transaction(){
@@ -10,10 +10,10 @@ transaction(){
         self.signerAddress = account.address
 
         // Create a new empty Vault object
-        let vaultA <- ExampleToken.createEmptyVault()
+        let vaultA: @ExampleToken.Vault <- ExampleToken.createEmptyVault()
 
         // Load, log and destroy any stuff that may be stored at that path in storage.
-        let randomResource <- account.load<@AnyResource>(from: ExampleToken.VaultStoragePath)
+        let randomResource: @AnyResource? <- account.load<@AnyResource>(from: ExampleToken.VaultStoragePath)
 
         if (randomResource == nil) {
             log("Storage for account "
@@ -39,7 +39,7 @@ transaction(){
         log("Empty Vault stored")
 
         // Create a public Receiver capability to the Vault
-        let ReceiverRef = account.link<&ExampleToken.Vault{ExampleToken.Provider, ExampleToken.Receiver, ExampleToken.Balance}>
+        let ReceiverRef: Capability<&ExampleToken.Vault{ExampleToken.Provider, ExampleToken.Receiver, ExampleToken.Balance}>? = account.link<&ExampleToken.Vault{ExampleToken.Provider, ExampleToken.Receiver, ExampleToken.Balance}>
             (ExampleToken.VaultPublicPath, target: ExampleToken.VaultStoragePath)
 
         log("References created!")

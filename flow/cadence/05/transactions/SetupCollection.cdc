@@ -1,5 +1,5 @@
-// import ExampleNFT from "../../05/contracts/ExampleNFT.cdc"
-import ExampleNFT from 0xf8d6e0586b0a20c7
+import ExampleNFT from "../../05/contracts/ExampleNFT.cdc"
+// import ExampleNFT from 0xf8d6e0586b0a20c7
 
 /*
     This transacrion configures a user's account to use the NFT contract by creating a new empty collection,
@@ -9,10 +9,10 @@ import ExampleNFT from 0xf8d6e0586b0a20c7
 transaction() {
     prepare(account: AuthAccount) {
         // Create a new empty collection
-        let collection <- ExampleNFT.createEmptyCollection()
+        let collection: @ExampleNFT.Collection <- ExampleNFT.createEmptyCollection()
 
         // Cleanup the storage path first
-        let randomResource <- account.load<@AnyResource>(from: ExampleNFT.CollectionStoragePath)
+        let randomResource: @AnyResource? <- account.load<@AnyResource>(from: ExampleNFT.CollectionStoragePath)
 
         if (randomResource == nil) {
             log(

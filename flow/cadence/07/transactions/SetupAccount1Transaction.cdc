@@ -20,7 +20,7 @@ transaction() {
         destroy <- account.load<@AnyResource>(from: self.bogusPath)
 
         // Retrive a reference from a purposely non-existent path to force the variable to have the Never? type for comparison
-        let nullValue = account.borrow<&ExampleNFT.Collection>(from: self.bogusPath)
+        let nullValue: &ExampleNFT.Collection? = account.borrow<&ExampleNFT.Collection>(from: self.bogusPath)
 
         // And now the type of reference set in storage
         let referenceType: Type? = account.type(at: ExampleNFT.CollectionStoragePath)
@@ -43,7 +43,7 @@ transaction() {
                 not a dreaded 'Never?', which would trigger an error if I tried to force cast it with a '!' by running into a nil, I can now
                 safely remove the optional '?' and test if the type obtained is the one I'm looking for
             */
-            let normalizedReferenceType = referenceType!
+            let normalizedReferenceType: Type = referenceType!
 
             // Inform the user of the resource type found in storage
             log(
@@ -76,7 +76,7 @@ transaction() {
                     Something else other than a @ExampleNFT.Collection is that storage path. At this point, let's assume that our transaction is
                     more important and thus I need to load and destroy whatever is in there before replacing it for the brand new colletion
                 */
-                let randomResource <- account.load<@AnyResource>(from: ExampleNFT.CollectionStoragePath)
+                let randomResource: @AnyResource? <- account.load<@AnyResource>(from: ExampleNFT.CollectionStoragePath)
 
                 // Log the resource type just for shit and giggles
                 log(

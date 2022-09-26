@@ -110,9 +110,14 @@
 				"emulator": "0xf8d6e0586b0a20c7",
 				"testnet": "0xb7fb1e0ae6485cf6"
 			}
+		},
+		"KittyVerse": {
+			"source": "./flow/cadence/10/contracts/KittyVerse.cdc",
+			"aliases": {
+				"emulator": "0xf8d6e0586b0a20c7",
+				"testnet": "0xb7fb1e0ae6485cf6"
+			}
 		}
-
-
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -160,7 +165,7 @@
 	"deployments": {
 		"emulator": {
 			"emulator-account": [
-				"ApprovalVoting"
+				"KittyVerse"
 			]
 		},
 		"testnet": {
