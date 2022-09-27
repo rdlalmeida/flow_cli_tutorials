@@ -43,7 +43,7 @@ pub contract KittyVerse {
     // and locked to the account that deploys this contract - henceforth know as admin
     pub resource KittyAdministrator {
         // Create a new hat
-        pub fun createHat(id: Int, name: String): @KittyHat {
+        pub fun createHat(name: String): @KittyHat {
             return <- create KittyHat(_name: name)
         }
 
@@ -55,10 +55,11 @@ pub contract KittyVerse {
     // Define a Resource Receiver interface to impose into our collection
     pub resource interface KittyReceiver {
         pub fun depositKitten(kitten: @Kitty)
-
         pub fun getKittiesIds(): [UInt64]
-
         pub fun idExists(id: UInt64): Bool
+        pub fun getKittyReference(id: UInt64): &KittyVerse.Kitty
+        pub fun getAllKitties(): String
+        pub fun getAllKittiesAndHats(): Void
     }
 
     // And now the proper Colection Resource to save the Kittens
@@ -83,10 +84,88 @@ pub contract KittyVerse {
             return self.ownedKitties[id] != nil
         }
 
-        // This one simply prints out the ids and 
-        pub fun getAllKitties() {}
+        // Returns a Reference to a Kitty inside the collection. Again, the idea is to keep the NFTs quiet in the Collection
+        // while we access the metadata at will
+        pub fun getKittyReference(id: UInt64): &KittyVerse.Kitty {
+            let kittyReference: &KittyVerse.Kitty? = &self.ownedKitties[id] as &KittyVerse.Kitty?
 
-        pub fun getAllKittiesAndHats() {}
+            return kittyReference ?? 
+                panic(
+                    "Current collection does not have a Kitty with ID "
+                    .concat(id.toString())
+                )
+        }
+
+        // This one simply prints out the ids and the name of the Kitties in this collection 
+        pub fun getAllKitties(): String {
+            // If the collection is still empty, cut this bull short
+            if (self.ownedKitties.length == 0) {
+                return "This account's Collection is still devoid of Kitties..."
+            }
+
+            let indexes: [UInt64] = self.ownedKitties.keys
+            var baseMessage: String = ""
+
+            // Otherwise, go ahead and compose a return message within a cycle
+            for index in indexes {
+                let kittyReference: &KittyVerse.Kitty = self.getKittyReference(id: index)
+
+                baseMessage = baseMessage
+                    .concat("Kitty #")
+                    .concat(index.toString())
+                    .concat(": ")
+                    .concat(kittyReference.kittyName)
+
+                baseMessage = baseMessage.concat("\n\n")
+            }
+            return baseMessage
+        }
+
+        // While this one prints out also any associated hats for each Kitty
+        pub fun getAllKittiesAndHats(): Void {
+            // Same thing. Check if the Collection is still empty and return that message if so
+            if (self.ownedKitties.length == 0) {
+                log("This account's Collection is still empty for Kitties...")
+            }
+
+            let kittyIndexes: [UInt64] = self.ownedKitties.keys
+            var baseMessage: String = ""
+            
+            // Otherwise, go ahead and compose a return message whitin a cycle
+            for kittyIndex in kittyIndexes {
+                // Each Kitty may have multiple items, so I need another cycle to deal with them
+                // Get a reference to a Kitty in this Collection
+                let currentKittyReference: &KittyVerse.Kitty = self.getKittyReference(id: kittyIndex)
+
+                // Update the base message
+                log(currentKittyReference.kittyName.concat(" Kitty (ID = ").concat(currentKittyReference.id.toString().concat("): ")))
+
+                // Get an array with all the hat Names set so far
+                let hatNames: [String] = currentKittyReference.items.keys
+
+                if (hatNames.length == 0) {
+                    log("This one is still hat-less.")
+                }
+                else {
+                    var index: Int = 0
+
+                    for hatName in hatNames {
+                        let hatReference: &KittyVerse.KittyHat = currentKittyReference.getHatReference(hatName: hatName)
+
+                        baseMessage = "Hat #"
+                            .concat(index.toString())
+                            .concat(": ID = ")
+                            .concat(hatReference.id.toString())
+                            .concat(" has a hat named ")
+                            .concat(hatReference.name)
+                            .concat(". Tipping it... '")
+                            .concat(hatReference.tipHat())
+                        
+                        log(baseMessage)
+                    }
+                }
+            }
+        }
 
         init() {
             // Initiate the collection as an empty dictionary
@@ -121,8 +200,11 @@ pub contract KittyVerse {
             else if (self.name == "Top Hat") {
                 return "Greetings, fellow aristocats!"
             }
+            else if (self.name == "MAGA Hat") {
+                return "Holy Jewish Space Lasers! I'm a full blown racist cat but I hate when people point that out to me..."
+            }
 
-            return "Hello"
+            return "Hello. This cat is wearing a ".concat(self.name)
         }
     }
 
@@ -146,17 +228,41 @@ pub contract KittyVerse {
             return <- other
         }
 
+        // Simple function to determine if a hat exists in this Kitty's collection
+        pub fun hatExists(hatName: String): Bool {
+            return self.items[hatName] != nil
+        }
+
+        // A function to return a reference to a KittyHat NFT
+        pub fun getHatReference(hatName: String): &KittyVerse.KittyHat {
+            // Otherwise, return a reference to the requested item
+            let kittyHatReference: &KittyVerse.KittyHat? = &self.items[hatName] as &KittyVerse.KittyHat?
+
+            return kittyHatReference ??
+                panic(
+                    "Kitty named '"
+                    .concat(self.kittyName)
+                    .concat("' does not has any hat named '")
+                    .concat(hatName)
+                    .concat("' yet... Quiting...")
+                )
+        }
+
         pub fun setKittyItems(items: @{String: KittyHat}) {
             var other: @{String: KittyHat} <- items
             self.items <-> other
             destroy other
         }
 
-        pub fun removeKittyItem(key: String): @KittyHat? {
-            var removed: @KittyVerse.KittyHat <- self.items.remove(key: key) ??
+        pub fun addKittyHat(hat: @KittyHat) {
+            self.items[hat.name] <-! hat
+        }
+
+        pub fun removeKittyHat(name: String): @KittyHat? {
+            var removed: @KittyVerse.KittyHat <- self.items.remove(key: name) ??
                 panic(
                     "Unable to remove KittyItem with id #"
-                    .concat(key)
+                    .concat(name)
                     .concat(". The item does not exist!")
                 )
             return <- removed
@@ -167,3 +273,4 @@ pub contract KittyVerse {
         }
     }
 }
+ 
